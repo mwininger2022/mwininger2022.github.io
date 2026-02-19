@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ridgeline Ranch — West Oregon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Barlow:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green-deep:   #1e3a2f;
+      --green-mid:    #2e6b4f;
+      --green-light:  #4a9b6f;
+      --green-pale:   #d4ead9;
+      --white:        #f9faf7;
+      --text-dark:    #14261d;
+      --text-muted:   #4a6858;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--white);
+      color: var(--text-dark);
+      font-family: 'Barlow', sans-serif;
+      font-size: 18px;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 4rem;
+      background: rgba(249,250,247,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 2px solid var(--green-pale);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--green-deep);
+      letter-spacing: 0.04em;
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-weight: 600;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--green-mid); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      background:
+        linear-gradient(160deg, rgba(30,58,47,0.72) 0%, rgba(46,107,79,0.55) 60%, transparent 100%),
+        url('hero.jpg') center/cover no-repeat;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 4rem 7rem;
+      position: relative;
+    }
+    /* Fallback gradient when no hero.jpg is present */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0; z-index: 0;
+      background: linear-gradient(135deg, var(--green-deep) 0%, var(--green-light) 55%, var(--green-pale) 100%);
+    }
+    .hero > * { position: relative; z-index: 1; }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--green-pale);
+      border: 1.5px solid var(--green-pale);
+      padding: 0.4rem 1rem;
+      border-radius: 2px;
+      margin-bottom: 1.4rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.2s forwards;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 7vw, 6rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.05;
+      max-width: 780px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.4s forwards;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--green-pale);
+    }
+    .hero-sub {
+      margin-top: 1.4rem;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.82);
+      max-width: 500px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.6s forwards;
+    }
+    .hero-cta {
+      margin-top: 2.5rem;
+      display: inline-block;
+      background: var(--white);
+      color: var(--green-deep);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 1rem 2.5rem;
+      border-radius: 2px;
+      text-decoration: none;
+      transition: background 0.25s, color 0.25s, transform 0.2s;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.8s forwards;
+    }
+    .hero-cta:hover {
+      background: var(--green-light);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTION BASE ── */
+    section { padding: 6rem 4rem; }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--green-light);
+      margin-bottom: 0.8rem;
+    }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 900;
+      color: var(--green-deep);
+      line-height: 1.1;
+      max-width: 600px;
+    }
+    p.lead {
+      margin-top: 1.4rem;
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 560px;
+      line-height: 1.75;
+    }
+
+    /* ── ABOUT ── */
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      background: var(--white);
+    }
+    .about-visual {
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, var(--green-mid) 0%, var(--green-pale) 100%);
+      border-radius: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+    .about-visual::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(45deg, transparent, transparent 18px, rgba(255,255,255,0.04) 18px, rgba(255,255,255,0.04) 19px);
+    }
+    .about-visual-inner {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 0.5rem;
+    }
+    .about-visual-inner span {
+      font-family: 'Playfair Display', serif;
+      font-size: 4rem;
+      color: rgba(255,255,255,0.25);
+      font-weight: 900;
+      line-height: 1;
+    }
+    .about-visual-inner small {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* ── SERVICES ── */
+    .services { background: var(--green-deep); color: var(--white); }
+    .services .section-label { color: var(--green-pale); }
+    .services h2 { color: var(--white); }
+    .services p.lead { color: rgba(255,255,255,0.7); }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3.5rem;
+    }
+    .card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 4px;
+      padding: 2.5rem;
+      transition: background 0.25s, transform 0.2s;
+    }
+    .card:hover {
+      background: rgba(255,255,255,0.11);
+      transform: translateY(-4px);
+    }
+    .card-icon {
+      font-size: 2.4rem;
+      margin-bottom: 1.2rem;
+    }
+    .card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 0.8rem;
+    }
+    .card p {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.7;
+    }
+
+    /* ── STATS STRIP ── */
+    .stats {
+      background: var(--green-pale);
+      padding: 4rem;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .stat { text-align: center; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: var(--green-deep);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-top: 0.4rem;
+    }
+
+    /* ── CONTACT ── */
+    .contact { background: var(--white); }
+    .contact-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    .contact-methods { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1.4rem; }
+    .contact-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+    }
+    .contact-item-icon {
+      width: 48px; height: 48px;
+      background: var(--green-pale);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .contact-item-text strong {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+    .contact-item-text a {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--green-deep);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .contact-item-text a:hover { color: var(--green-light); }
+
+    .contact-right {
+      background: var(--green-deep);
+      border-radius: 4px;
+      padding: 3rem;
+      color: var(--white);
+    }
+    .contact-right h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      margin-bottom: 1rem;
+    }
+    .contact-right p {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.75;
+      margin-bottom: 2rem;
+    }
+    .contact-detail {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+      padding: 0.8rem 0;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.75);
+    }
+    .contact-detail:last-child { border-bottom: 1px solid rgba(255,255,255,0.1); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--green-deep);
+      border-top: 3px solid var(--green-light);
+      padding: 2.5rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 1.2rem;
+      color: var(--white);
+    }
+    .footer-copy {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 860px) {
+      nav { padding: 1rem 2rem; }
+      .nav-links { gap: 1.5rem; }
+      section { padding: 4.5rem 2rem; }
+      .about { grid-template-columns: 1fr; gap: 3rem; }
+      .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+      footer { padding: 2rem; flex-direction: column; text-align: center; }
+      .stats { padding: 3rem 2rem; }
+      .hero { padding: 0 2rem 5rem; }
+    }
+    @media (max-width: 560px) {
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a class="nav-logo" href="#">Ridgeline Ranch</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" id="home">
+    <span class="hero-tag">West Oregon · Est. 1978</span>
+    <h1>Where the land<br><em>works & celebrates</em></h1>
+    <p class="hero-sub">Hundreds of fertile acres available for farmland lease and unforgettable outdoor weddings in the heart of Oregon's Willamette Valley.</p>
+    <a class="hero-cta" href="#contact">Get in Touch</a>
+  </header>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-text">
+      <p class="section-label">Our Story</p>
+      <h2>A ranch rooted in Oregon's land and legacy</h2>
+      <p class="lead">For generations, Ridgeline Ranch has been a cornerstone of West Oregon's agricultural community. Nestled among rolling hills and old-growth firs, our property offers both working farmland and breathtaking event spaces — all under the same wide Oregon sky.</p>
+      <p class="lead" style="margin-top:1rem;">Whether you're a farmer seeking fertile, well-irrigated acreage or a couple dreaming of an outdoor wedding surrounded by nature, we have the land and the vision to make it happen.</p>
+    </div>
+    <div class="about-visual">
+      <div class="about-visual-inner">
+        <span>🌲</span>
+        <small>West Oregon</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services" id="services">
+    <p class="section-label">What We Offer</p>
+    <h2>Land that serves every season</h2>
+    <p class="lead">Two distinct offerings, one exceptional property.</p>
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">🌾</div>
+        <h3>Farmland Leasing</h3>
+        <p>Lease productive, well-irrigated agricultural acreage with fertile soil and established infrastructure. Flexible lease terms available for crops, livestock, and specialty farming operations.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💍</div>
+        <h3>Wedding Venue</h3>
+        <p>Say "I do" surrounded by meadows, towering trees, and open Oregon sky. We host intimate ceremonies and larger celebrations with scenic backdrops unlike anywhere else.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🤝</div>
+        <h3>Custom Arrangements</h3>
+        <p>Every tenant and event is unique. We work directly with you to understand your needs and craft an arrangement that fits your vision and timeline.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-num">500+</div>
+      <div class="stat-label">Acres Available</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">40+</div>
+      <div class="stat-label">Years of History</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100s</div>
+      <div class="stat-label">Weddings Hosted</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">W. Oregon</div>
+      <div class="stat-label">Location</div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact-inner">
+      <div>
+        <p class="section-label">Reach Out</p>
+        <h2>Let's talk about your plans</h2>
+        <p class="lead">Whether you're interested in leasing farmland or booking your wedding, we'd love to hear from you. Reach us directly — no middlemen.</p>
+        <div class="contact-methods">
+          <div class="contact-item">
+            <div class="contact-item-icon">📞</div>
+            <div class="contact-item-text">
+              <strong>Phone</strong>
+              <a href="tel:+15031234567">(503) 123-4567</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">✉️</div>
+            <div class="contact-item-text">
+              <strong>Email</strong>
+              <a href="mailto:hello@ridgelineranch.com">hello@ridgelineranch.com</a>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📍</div>
+            <div class="contact-item-text">
+              <strong>Location</strong>
+              <a href="#">West Oregon, Willamette Valley</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="contact-right">
+        <h3>Ready when you are</h3>
+        <p>We typically respond within one business day. For urgent inquiries about available leasing dates or wedding availability, calling is always the fastest route.</p>
+        <div class="contact-detail">🕐 &nbsp; Mon – Fri, 8:00 AM – 6:00 PM</div>
+        <div class="contact-detail">📅 &nbsp; Weekend visits by appointment</div>
+        <div class="contact-detail">🌱 &nbsp; Leasing seasons open year-round</div>
+        <div class="contact-detail">💐 &nbsp; Wedding bookings accepted 18 months out</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <span class="footer-logo">Ridgeline Ranch</span>
+    <span class="footer-copy">© 2025 Ridgeline Ranch · West Oregon · All rights reserved</span>
+  </footer>
+
+</body>
+</html>
